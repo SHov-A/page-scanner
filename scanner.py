@@ -1,12 +1,26 @@
+import sys
+from validator import is_valid_url
 
 
-from selenium import webdriver
+class Scanner:
+    def __init__(self, driver):
+        self.__driver = driver
 
-driver = webdriver.Chrome("QA\chromedriver")
-driver.get("https://www.nytimes.com")
-headlines = driver.find_elements_by_class_name("story-heading")
-for headline in headlines:
-    print(headline.text.strip())
+    def number_of_html_form_elements(self):
+        number_of_html_form_elements = 0
+        element_form = self.__driver.find_elements_by_xpath("//form")
+        for e in element_form:
+            method_attribute = e.get_attribute(name="method")
+            if str(method_attribute).lower() != "post":
+                number_of_html_form_elements += 1
+        print("The number of <form/> tags with 'method=get' is :: %s" % number_of_html_form_elements)
 
+    def number_of_html_image_tags(self):
+        element_image = self.__driver.find_elements_by_xpath("//img")
+        print("The number of <img/> tags is :: %s" % len(element_image))
 
+    def get_driver(self):
+        return self.__driver
 
+    def quit_driver(self):
+        self.__driver.quit()
