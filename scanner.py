@@ -1,7 +1,3 @@
-import sys
-from validator import is_valid_url
-
-
 class Scanner:
     def __init__(self, driver):
         self.__driver = driver
